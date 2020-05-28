@@ -1,3 +1,7 @@
+#Author:       Kristan Smout
+#description : Discord bot to read last tweet from user and send it to a discord server. Has restart support to not double send tweets
+#date :        28/05/2020
+
 import sys,tweepy,tweepy.api,discord,time,os,discord
 from discord.ext import tasks, commands
 
