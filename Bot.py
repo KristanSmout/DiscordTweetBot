@@ -40,13 +40,17 @@ async def on_ready():
     api = tweepy.API(auth)
 
     userID = "dividendcut"
+    userID2 = "dividendhike"
     f = open(dir_path + '/LastTweet.txt', 'r')
+    f2 = open(dir_path + '/LastTweet2.txt', 'r')
     LastTweet = f.read()
+    LastTweet2 = f2.read()
 
 
 
     print('client Ready')
     print('Read Tweet | ' + LastTweet)
+    print('Read Tweet | ' + LastTweet2)
 
     i = 0
     while(True):
@@ -59,8 +63,20 @@ async def on_ready():
                 f = open(dir_path + '/LastTweet.txt', 'w+')
                 f.write(LastTweet)
                 f.close()
-                channel = client.get_channel(int(715645031633125396))
-                await channel.send('```' + LastTweet + '```')
+                channel = client.get_channel(int(708242642714099743))
+                await channel.send('Dividend Decreased/Removed')
+                await channel.send('```diff\n' + '-' + LastTweet + '```')
+        
+        tweets2 = api.user_timeline(screen_name=userID2, count=10, include_rts = False, tweet_mode = 'extended')
+        for info in tweets2[:1]:
+            if(info.full_text != LastTweet2):
+                LastTweet2 = info.full_text
+                f2 = open(dir_path + '/LastTweet2.txt', 'w+')
+                f2.write(LastTweet2)
+                f2.close()
+                channel = client.get_channel(int(708242642714099743))
+                await channel.send('Dividend Increased/Enabled')
+                await channel.send('```diff\n' + '+' + LastTweet + '```')
         time.sleep(60)
 
 client.run(discord_token)
